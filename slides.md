@@ -5,4 +5,8 @@ Brian Besmanoff
 
 ---
 
+## What is Vagrant?
+> Development environments made easy
+> - https://vagrantup.com
+
 [repo]: https://github.com/bbesmanoff/vagrant-micro-talk
