@@ -1,0 +1,147 @@
+<section>
+
+<h2>Vagrant in 5-ish Minutes</h2>
+
+<p>Brian Besmanoff<br>
+<img class="emoji" title=":octocat:" alt=":octocat:" src="https://assets-cdn.github.com/images/icons/emoji/octocat.png" align="absmiddle"> <a href="https://github.com/bbesmanoff/vagrant-micro-talk">bbesmanoff/vagrant-micro-talk</a></p>
+
+</section>
+<section>
+
+<h2>What is Vagrant?</h2>
+
+<blockquote>
+<p>Development environments made easy
+- <a href="https://vagrantup.com">https://vagrantup.com</a></p>
+</blockquote>
+
+</section>
+<section>
+
+<h2>What Does That Mean?</h2>
+
+</section>
+<section>
+
+<h2>What Does That Mean?</h2>
+
+<ul>
+<li>Development Environments - Where you write code</li>
+<li>made easy - (self explanitory)</li>
+</ul>
+
+</section>
+<section>
+
+<h2>How Does That Help Me?</h2>
+
+<p>Quick, cheap, and ready-to-code VMs</p>
+
+</section>
+<section>
+
+<h2>How Does That Happen?</h2>
+
+<p>Vagrantfile - a description file using a Ruby DSL</p>
+<pre><code class="ruby"># Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "base"
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+
+</code></pre>
+</section>
+<section>
+
+<h2>Some Cool Vagrant-isms</h2>
+
+</section>
+<section>
+
+<h2>Some Cool Vagrant-isms</h2>
+
+<h3>Provisioning</h3>
+
+<ul>
+<li>Run Puppet, Chef, shell commands, etc</li>
+</ul>
+<pre><code class="ruby">  config.vm.provision 'shell', inline: 'sudo apt-get install -y apache2'
+</code></pre>
+</section>
+<section>
+
+<h2>A True Real-Life Example</h2>
+<pre><code class="ruby"># -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "hashicorp/precise32"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+  config.vm.provision 'shell', path: 'vagrant_provisioning.sh'
+
+end
+</code></pre>
+</section>
+<section>
+
+<h2>A True Real-Life Example</h2>
+<pre><code># Install dependencies
+export DEBIAN_FRONTEND=noninteractive
+apt-get -y update
+apt-get -y install apache2 mysql-server php5 php5-mysql unzip
+
+# Restart Apache for full PHP support
+service apache2 restart
+
+# Configure mysql
+mysql -u root -e "CREATE DATABASE dvwa;"
+mysqladmin -u root password "p@ssw0rd"
+
+# Download/extract DVWA
+wget -O dvwa.zip https://github.com/RandomStorm/DVWA/archive/v1.0.8.zip
+unzip dvwa.zip
+
+# Mount it at WEBROOT/dvwa
+mv DVWA-1.0.8 /var/www/dvwa
+
+# Create an XSS target
+cat &gt; /var/www/xss.html &lt;&lt;EOF 
+&lt;h1&gt;PWNED&lt;/h1&gt;
+EOF
+</code></pre>
+</section>
+<section>
+
+<h2>A True Real-Life Demo</h2>
+
+</section>
+<section>
+
+<h2>Questions</h2>
+
+</section>
